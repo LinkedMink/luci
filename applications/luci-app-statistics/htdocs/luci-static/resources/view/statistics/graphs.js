@@ -6,6 +6,8 @@
 'require uci';
 'require statistics.rrdtool as rrdtool';
 
+const IMAGE_MIME_TYPE = 'image/svg+xml'
+
 var pollFn = null,
     activePlugin = null,
     activeInstance = null;
@@ -78,7 +80,7 @@ return view.extend({
 					'cbi-tab-active': function(ev) { activeInstance = ev.target.getAttribute('data-plugin-instance') }
 				}, blobs.map(function(blob) {
 					return E('img', {
-						'src': URL.createObjectURL(new Blob([blob], { type: 'image/png' }))
+						'src': URL.createObjectURL(new Blob([blob], { type: IMAGE_MIME_TYPE, style: 'max-width: 100%' }))
 					});
 				}));
 			})));
@@ -134,7 +136,7 @@ return view.extend({
 		}).then(function(blobs) {
 			return Promise.all(blobs.map(function(blob) {
 				return new Promise(function(resolveFn, rejectFn) {
-					var img = E('img', { 'src': URL.createObjectURL(new Blob([blob], { type: 'image/png' })) });
+					var img = E('img', { 'src': URL.createObjectURL(new Blob([blob], { type: IMAGE_MIME_TYPE })), style: 'max-width: 100%' });
 					img.onload = function(ev) { resolveFn(img) };
 					img.onerror = function(ev) { resolveFn(img) };
 				});
