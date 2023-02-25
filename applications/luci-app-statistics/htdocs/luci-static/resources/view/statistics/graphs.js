@@ -6,7 +6,7 @@
 'require uci';
 'require statistics.rrdtool as rrdtool';
 
-const IMAGE_MIME_TYPE = 'image/svg+xml'
+const IMAGE_MIME_TYPE = 'image/png'
 
 var pollFn = null,
     activePlugin = null,
@@ -79,9 +79,13 @@ return view.extend({
 					'data-is-index': i ? null : true,
 					'cbi-tab-active': function(ev) { activeInstance = ev.target.getAttribute('data-plugin-instance') }
 				}, blobs.map(function(blob) {
-					return E('img', {
-						'src': URL.createObjectURL(new Blob([blob], { type: IMAGE_MIME_TYPE, style: 'max-width: 100%' }))
-					});
+					return E(
+						'img',
+						{
+							'src': URL.createObjectURL(new Blob([blob], { type: IMAGE_MIME_TYPE })),
+							'style': 'max-width: 100%'
+						}
+					);
 				}));
 			})));
 
@@ -136,7 +140,13 @@ return view.extend({
 		}).then(function(blobs) {
 			return Promise.all(blobs.map(function(blob) {
 				return new Promise(function(resolveFn, rejectFn) {
-					var img = E('img', { 'src': URL.createObjectURL(new Blob([blob], { type: IMAGE_MIME_TYPE })), style: 'max-width: 100%' });
+					const img = E(
+						'img',
+						{ 
+							'src': URL.createObjectURL(new Blob([blob], { type: IMAGE_MIME_TYPE })),
+							'style': 'max-width: 100%'
+						}
+					);
 					img.onload = function(ev) { resolveFn(img) };
 					img.onerror = function(ev) { resolveFn(img) };
 				});

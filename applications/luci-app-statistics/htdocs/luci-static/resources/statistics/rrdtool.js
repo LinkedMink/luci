@@ -333,7 +333,7 @@ return baseclass.extend({
 	_rrdtool: function(def, rrd, timespan, width, height, cache) {
 		var cmdline = [
 			'graph', '-', 
-			'-a', 'SVG',
+			'-a', 'PNG',
 			'-s', 'NOW-%s'.format(timespan || this.opts.timespan),
 			'-e', 'NOW-15',
 			'-w', width || this.opts.width,
